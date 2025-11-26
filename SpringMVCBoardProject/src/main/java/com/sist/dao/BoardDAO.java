@@ -24,4 +24,33 @@ public class BoardDAO {
 	public void boardInsert(BoardVO vo) {
 		mapper.boardInsert(vo);
 	}
+	
+	public BoardVO boardDetail(int no) {
+		mapper.hitIncrement(no);
+		return mapper.boardDetail(no);
+	}
+	
+	public String boardDelete(int no, String pwd) {
+		String res = "no";
+		String db_pwd = mapper.boardGetPassword(no);
+		if(db_pwd.equals(pwd)) {
+			res = "yes";
+			mapper.boardDelete(no);
+		}
+		return res;
+	}
+	
+	public BoardVO boardUpdateData(int no) {
+		return mapper.boardDetail(no);
+	}
+	
+	public boolean boardUpdate(BoardVO vo) {
+		boolean res = false;
+		String db_pwd = mapper.boardGetPassword(vo.getNo());
+		if(db_pwd.equals(vo.getPwd())) {
+			res = true;
+			mapper.boardUpdate(vo);
+		}
+		return res;
+	}
 }
